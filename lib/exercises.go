@@ -1,4 +1,4 @@
-package exercises
+package lib
 
 import (
 	"fmt"
@@ -34,7 +34,7 @@ func (e ExerciseSlice) print_it() {
 	}
 }
 
-func h_generate_multiply() ExerciseSlice {
+func H_generate_multiply() ExerciseSlice {
 	var e = make(ExerciseSlice, 100, 100)
 	c := 0
 	for a := 1; a <= 10; a++ {
@@ -46,7 +46,7 @@ func h_generate_multiply() ExerciseSlice {
 	return e
 }
 
-func h_generate_division() ExerciseSlice {
+func H_generate_division() ExerciseSlice {
 	var e = make(ExerciseSlice, 100, 100)
 	c := 0
 	for a := 1; a <= 10; a++ {
