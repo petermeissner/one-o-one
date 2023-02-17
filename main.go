@@ -2,68 +2,10 @@ package main
 
 import (
 	"fmt"
-	gbc "github.com/petermeissner/golang-basic-cred/library"
-	oool "github.com/petermeissner/one-o-one/lib"
 	"github.com/urfave/cli/v2"
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
-	"gorm.io/gorm/clause"
 	"log"
 	"os"
 )
-
-func server_func(cCtx *cli.Context) error {
-	fmt.Println("SERVER!!!")
-	return nil
-}
-
-func setup_ex_func(cCtx *cli.Context) error {
-
-	fmt.Println("Setting up Exercises in DB ...")
-
-	// establish db connection
-	gorm_dialect := sqlite.Open("gorm.db")
-	db, err := gorm.Open(gorm_dialect, &gorm.Config{})
-	if err != nil {
-		log.Panic(err)
-	}
-
-	// ensure tables exist
-	db.AutoMigrate(&oool.Exercise{})
-
-	// add exercise data
-	m := oool.H_generate_multiply()
-	db.Clauses(clause.OnConflict{
-		Columns:   []clause.Column{{Name: "exercise"}},
-		UpdateAll: true,
-	}).Create(&m)
-
-	d := oool.H_generate_division()
-	db.Clauses(clause.OnConflict{
-		Columns:   []clause.Column{{Name: "exercise"}},
-		UpdateAll: true,
-	}).Create(&d)
-
-	return err
-}
-
-func setup_user_func(cCtx *cli.Context) error {
-	fmt.Println("User creation ...")
-
-	auth := gbc.Get_auth_from_term()
-
-	// establish db connection
-	gorm_dialect := sqlite.Open("gorm.db")
-	db, err := gorm.Open(gorm_dialect, &gorm.Config{})
-	if err != nil {
-		log.Panic(err)
-	}
-
-	// Hash credentials and store them in db
-	gbc.Upsert_auth_as_credential_to_db(db, auth)
-
-	return err
-}
 
 var commands = []*cli.Command{
 	{
@@ -91,18 +33,19 @@ var commands = []*cli.Command{
 	},
 }
 
-func main() {
-	app := &cli.App{
-		Name:  "one-o-one",
-		Usage: "set up ono-o-one server",
-		Action: func(*cli.Context) error {
-			fmt.Println("Welcome to ooo-cli.")
-			fmt.Println("use --help to get help")
+var app = &cli.App{
+	Name:  "one-o-one",
+	Usage: "set up ono-o-one server",
+	Action: func(*cli.Context) error {
+		fmt.Println("Welcome to one-o-one-cli.")
+		fmt.Println("use --help to get help")
 
-			return nil
-		},
-		Commands: commands,
-	}
+		return nil
+	},
+	Commands: commands,
+}
+
+func main() {
 
 	if err := app.Run(os.Args); err != nil {
 		log.Fatal(err)
