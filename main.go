@@ -2,10 +2,14 @@ package main
 
 import (
 	"fmt"
-	"github.com/urfave/cli/v2"
 	"log"
 	"os"
+
+	"github.com/urfave/cli/v2"
 )
+
+// The default logger to be (re-)used throughout the application
+var logger_info = log.Default()
 
 var commands = []*cli.Command{
 	{
