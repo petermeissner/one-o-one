@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/session"
+	"github.com/gofiber/template/html"
 	"github.com/urfave/cli/v2"
 )
 
@@ -22,7 +24,18 @@ func server_func(cCtx *cli.Context) error {
 	// new session-store
 	store = session.New()
 
-	app := fiber.New()
+	// initialize template engine
+	engine := html.New("./views", ".html")
+	engine.Reload(true)
+	// engine.Debug(true)
+	engine.Layout("embed")
+	engine.Delims("{{", "}}")
+	app := fiber.New(fiber.Config{
+		Views: engine,
+	})
+
+	// route: root, for static content
+	app.Static("/", "./public")
 
 	// route: root
 	app.Get("/", func(c *fiber.Ctx) error {
@@ -33,13 +46,17 @@ func server_func(cCtx *cli.Context) error {
 		}
 
 		// log.Println(sess)
+		name := sess.Get("name")
 		isLogin := sess.Get("is_logged_in")
+		UnauthorizedMessage := "Kein Login, keine Kekse."
+		AuthorizedMessage := fmt.Sprintf("Willkommen %v", name)
 
-		if isLogin == true {
-			return c.JSON(Message{Message: "logged in"})
-		} else {
-			return c.JSON(Message{Message: "NOT logged in"})
-		}
+		return c.Render("index", fiber.Map{
+			"AuthorizedMessage":   AuthorizedMessage,
+			"UnauthorizedMessage": UnauthorizedMessage,
+			"IsLogin":             isLogin,
+		})
+
 	})
 
 	// route: login

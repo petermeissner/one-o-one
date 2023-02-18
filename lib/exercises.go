@@ -10,12 +10,12 @@ type Exercise struct {
 }
 
 type Exercised struct {
-	excessive_id uint
-	player_id    uint
-	runs         uint
-	fails        uint
-	success      uint
-	duration_s   uint
+	exercise_id uint
+	user_id     uint
+	runs        uint
+	fails       uint
+	success     uint
+	duration_s  uint
 }
 
 func (e Exercise) print_all() {

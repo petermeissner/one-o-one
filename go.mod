@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/gofiber/fiber/v2 v2.42.0
+	github.com/gofiber/template v1.7.5
 	github.com/petermeissner/golang-basic-cred v0.1.0
 	github.com/urfave/cli/v2 v2.24.4
 	gorm.io/driver/sqlite v1.4.4

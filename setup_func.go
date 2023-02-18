@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+	"log"
+
 	gbc "github.com/petermeissner/golang-basic-cred/library"
 	oool "github.com/petermeissner/one-o-one/lib"
 	"github.com/urfave/cli/v2"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
-	"log"
 )
 
 func setup_ex_func(cCtx *cli.Context) error {
@@ -24,6 +25,7 @@ func setup_ex_func(cCtx *cli.Context) error {
 
 	// ensure tables exist
 	db.AutoMigrate(&oool.Exercise{})
+	db.AutoMigrate(&oool.Exercised{})
 
 	// add exercise data
 	m := oool.H_generate_multiply()
