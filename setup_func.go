@@ -60,3 +60,18 @@ func setup_user_func(cCtx *cli.Context) error {
 
 	return err
 }
+
+func setup_user_ex_func(cCtx *cli.Context) error {
+	fmt.Println("User-Exercise creation ...")
+
+	// establish db connection
+	gorm_dialect := sqlite.Open("gorm.db")
+	db, err := gorm.Open(gorm_dialect, &gorm.Config{})
+	if err != nil {
+		log.Panic(err)
+	}
+
+	println(db)
+
+	return err
+}

@@ -14,13 +14,17 @@ var logger_info = log.Default()
 var commands = []*cli.Command{
 	{
 		Name:   "server",
-		Usage:  "run server",
+		Usage:  `start application`,
 		Action: server_func,
 	},
 
 	{
-		Name:  "setup",
-		Usage: "setup application",
+		Name: "setup",
+		Usage: `setup tasks
+		... user     # create a new database user entry
+		... ex       # create a new database with exercises
+		... user-ex  # create a new database user entries for exercises
+		`,
 		Subcommands: []*cli.Command{
 			{
 				Name:   "ex",
@@ -33,13 +37,18 @@ var commands = []*cli.Command{
 				Usage:  "create a new database user entry",
 				Action: setup_user_func,
 			},
+
+			{
+				Name:   "user-ex",
+				Usage:  "create a new database user entries for exercises",
+				Action: setup_user_ex_func,
+			},
 		},
 	},
 }
 
 var app = &cli.App{
-	Name:  "one-o-one",
-	Usage: "set up ono-o-one server",
+	Name: "one-o-one",
 	Action: func(*cli.Context) error {
 		fmt.Println("Welcome to one-o-one-cli.")
 		fmt.Println("use --help to get help")
